@@ -2,7 +2,6 @@ terraform/.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/*.tfplan
-terraform/*.tfvars
 terraform/crash.log
 terraform/override.tf
 terraform/override.tf.json
