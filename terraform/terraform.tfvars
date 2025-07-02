@@ -33,3 +33,7 @@ cluster_machine_type = "e2-medium"
 cluster_disk_type = "pd-standard"
 
 cluster_disk_size = 12
+
+cloud_router_name = "guptaji-tech-allianz-router"
+
+cloud_nat_name = "guptaji-tech-allianz-nat"

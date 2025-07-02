@@ -70,3 +70,11 @@ variable "cluster_disk_size" {
     description = "Disk size for the cluster worker node"
 }
 
+variable "cloud_router_name" {
+    description = "Name of the cloud router"
+}
+
+variable "cloud_nat_name" {
+    description = "Name of the cloud nat"
+}
+
