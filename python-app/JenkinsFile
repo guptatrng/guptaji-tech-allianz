@@ -11,7 +11,7 @@ pipeline {
             }
         }
 
-        stage('Read Control File') {
+        stage('Read Deployment Control File') {
             steps {
                 script {
                     DEPLOY_TARGET = readFile('python-app/blue-green-control.txt').trim()
