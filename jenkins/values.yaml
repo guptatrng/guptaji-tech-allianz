@@ -15,7 +15,7 @@ agent:
      registry: ""
      repository: guptatrng/guptaji-tech-allianz-jenkins-agent
      tag: v3
-  podName: default
+  podName: jenkins-agent
   customJenkinsLabels: default
   resources:
     requests:
@@ -24,3 +24,8 @@ agent:
     limits:
       cpu: "250m"
       memory: "512Mi"
+  volumes:
+    - type: HostPath
+      hostPath: /var/run/docker.sock
+      mountPath: /var/run/docker.sock
+  runAsUser: 0 
