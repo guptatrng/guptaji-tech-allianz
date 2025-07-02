@@ -14,7 +14,7 @@ def hello():
             <title>Python on Kubernetes</title>
             <style>
                 body {{
-                    background: linear-gradient(135deg, #b71c1c, #f44336);
+                    background: linear-gradient(135deg, #1565c0, #42a5f5);
                     color: #ffffff;
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                     display: flex;
@@ -33,24 +33,24 @@ def hello():
                 h1 {{
                     font-size: 3em;
                     margin-bottom: 10px;
-                    color: #ffebee;
+                    color: #e3f2fd;
                 }}
                 p {{
                     font-size: 1.4em;
                     margin-top: 0;
-                    color: #ffcdd2;
+                    color: #bbdefb;
                 }}
                 .meta {{
                     margin-top: 30px;
                     font-size: 1em;
-                    color: #ffe0e0;
+                    color: #e1f5fe;
                 }}
             </style>
         </head>
         <body>
             <div class="container">
                 <h1>Hello, World!</h1>
-                <p>This Python app is running in a kubernetes cluster.</p>
+                <p>This Python app is running in a Kubernetes cluster.</p>
                 <div class="meta">
                     <p><strong>Deployment:</strong> {deployment_name}</p>
                     <p><strong>Pod:</strong> {pod_name}</p>
