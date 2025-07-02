@@ -5,6 +5,7 @@ controller:
     - kubernetes
     - workflow-aggregator
     - git
+    - github
     - docker-workflow
     - google-oauth-plugin
     - google-kubernetes-engine

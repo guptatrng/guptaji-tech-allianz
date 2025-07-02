@@ -1,0 +1,36 @@
+pipeline {
+    agent {
+        label 'default'
+    }
+
+    stages {
+
+        stage('Clone Repo') {
+            steps {
+                git url: 'https://github.com/guptatrng/guptaji-tech-allianz.git', branch: 'main'
+            }
+        }
+
+        stage('Read Control File') {
+            steps {
+                script {
+                    DEPLOY_TARGET = readFile('python-app/blue-green-control.txt').trim()
+                    echo "Deploy target: ${DEPLOY_TARGET}"
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    sh """
+                        cd python-app/${DEPLOY_TARGET}
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install -r requirements.txt
+                    """
+                }
+            }
+        }
+    }
+}
