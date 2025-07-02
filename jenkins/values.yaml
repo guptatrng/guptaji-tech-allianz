@@ -1,0 +1,26 @@
+controller:
+  serviceType: LoadBalancer
+
+  installPlugins:
+    - kubernetes
+    - workflow-aggregator
+    - git
+    - docker-workflow
+    - google-oauth-plugin
+    - google-kubernetes-engine
+
+agent:
+  enabled: true
+  image:
+     registry: ""
+     repository: guptatrng/guptaji-tech-allianz-jenkins-agent
+     tag: v2
+  podName: default
+  customJenkinsLabels: default
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "250m"
+      memory: "512Mi"
