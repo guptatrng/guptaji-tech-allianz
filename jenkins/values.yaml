@@ -5,7 +5,6 @@ controller:
     - kubernetes
     - workflow-aggregator
     - git
-    - github
     - docker-workflow
     - google-oauth-plugin
     - google-kubernetes-engine
@@ -15,7 +14,7 @@ agent:
   image:
      registry: ""
      repository: guptatrng/guptaji-tech-allianz-jenkins-agent
-     tag: v2
+     tag: v3
   podName: default
   customJenkinsLabels: default
   resources:
