@@ -10,4 +10,14 @@ resource "google_compute_subnetwork" "guptaji-tech-allianz-subnet" {
     ip_cidr_range = var.subnetwork_cidr
     region        = var.region
     network       = google_compute_network.guptaji-tech-allianz-vpc.id
+    #Secondary subnet IP range for kubernetes cluster pods
+    secondary_ip_range {
+        range_name    = "guptaji-tech-allianz-subnet-pod-range"
+        ip_cidr_range = var.subnet_pod_secondary_range
+    }
+    #Secondary subnet IP range for kubernetes cluster pods
+    secondary_ip_range {
+        range_name    = "guptaji-tech-allianz-subnet-service-range"
+        ip_cidr_range = var.subet_service_secondary_range
+    }
 }
