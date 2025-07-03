@@ -19,13 +19,23 @@ agent:
   customJenkinsLabels: default
   resources:
     requests:
-      cpu: "250m"
+      cpu: "125m"
       memory: "512Mi"
     limits:
-      cpu: "250m"
+      cpu: "125m"
       memory: "512Mi"
-  volumes:
-    - type: HostPath
-      hostPath: /var/run/docker.sock
-      mountPath: /var/run/docker.sock
-  runAsUser: 0 
+  additionalContainers:
+    - sideContainerName: dind
+      image:
+        repository: docker
+        tag: dind
+      command: dockerd-entrypoint.sh
+      args: ""
+      privileged: true
+      resources:
+        requests:
+          cpu: "125m"
+          memory: "512Mi"
+        limits:
+          cpu: "125m"
+          memory: "512Mi"
