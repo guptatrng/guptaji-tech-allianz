@@ -1,5 +1,3 @@
-#This is a docker file for jenkins agent which will run in kubernetes cluster
-
 FROM jenkins/inbound-agent:latest
 
 USER root
@@ -10,6 +8,7 @@ RUN apt-get update && \
         apt-transport-https \
         ca-certificates \
         curl \
+        sudo \ 
         gnupg \
         lsb-release \
         software-properties-common

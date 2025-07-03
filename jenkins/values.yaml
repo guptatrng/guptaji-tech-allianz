@@ -17,6 +17,7 @@ agent:
      tag: v3
   podName: jenkins-agent
   customJenkinsLabels: default
+  privileged: true
   resources:
     requests:
       cpu: "125m"

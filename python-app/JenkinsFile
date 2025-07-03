@@ -42,20 +42,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-//                    COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-//                    IMAGE_TAG = "${DOCKERHUB_USER}/${APP_NAME}-${DEPLOY_TARGET}:${COMMIT_ID}"
+                    COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                    IMAGE_TAG = "${DOCKERHUB_USER}/${APP_NAME}-${DEPLOY_TARGET}:${COMMIT_ID}"
 
-//                    sh """
-//                        cd python-app/${DEPLOY_TARGET}
-//                        docker build -t ${IMAGE_TAG} .
-//                        docker images
-//                    """
-                      sh """
-                        sleep 1800
-                      """
+                    sh """
+                        cd python-app/${DEPLOY_TARGET}
+                        docker build -t ${IMAGE_TAG} .
+                        docker images
+                    """
                 }
             }
         }
-
     }
 }
