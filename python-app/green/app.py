@@ -50,7 +50,7 @@ def hello():
         <body>
             <div class="container">
                 <h1>Hello, World!</h1>
-                <p>This Python app is running in a Kubernetes cluster.</p>
+                <p>This Python app is running in a Kubernetes cluster..</p>
                 <div class="meta">
                     <p><strong>Deployment:</strong> {deployment_name}</p>
                     <p><strong>Pod:</strong> {pod_name}</p>
