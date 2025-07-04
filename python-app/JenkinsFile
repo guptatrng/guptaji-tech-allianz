@@ -126,5 +126,44 @@ pipeline {
             }
         }
 
+        stage('Update Cloud DNS Record') {
+            steps {
+                script {
+                    echo "========== 🌐 START: Updating Cloud DNS Record =========="
+                    
+                    def FINAL_TARGET = DEPLOY_TARGET.toLowerCase()
+                    def IP_ADDRESS = ""
+                    
+                    if (FINAL_TARGET == "blue") {
+                        IP_ADDRESS = "35.244.38.182"
+                    } else if (FINAL_TARGET == "green") {
+                        IP_ADDRESS = "35.244.42.150"
+                    } else {
+                        error "Invalid DEPLOY_TARGET: ${DEPLOY_TARGET}. Must be 'blue' or 'green'."
+                    }
+                    
+                    echo "✅ Target environment: ${FINAL_TARGET}, IP: ${IP_ADDRESS}"
+                    
+                    sh """
+                        gcloud dns record-sets transaction start --zone=guptaji-tech
+
+                        # Remove the old A record (if any)
+                        OLD_IP=\$(gcloud dns record-sets list --zone=guptaji-tech --name="guptaji.tech." --type=A --format="value(rrdatas[0])")
+                        if [ ! -z "\$OLD_IP" ]; then
+                            gcloud dns record-sets transaction remove --zone=guptaji-tech --name="guptaji.tech." --type=A --ttl=60 "\$OLD_IP"
+                        fi
+
+                        # Add the new A record
+                        gcloud dns record-sets transaction add --zone=guptaji-tech --name="guptaji.tech." --type=A --ttl=60 "${IP_ADDRESS}"
+
+                        # Execute the transaction
+                        gcloud dns record-sets transaction execute --zone=guptaji-tech
+                    """
+
+                    echo "✅✅✅ Cloud DNS A record updated to IP: ${IP_ADDRESS}"
+                }
+            }
+        }
+
     }
 }
