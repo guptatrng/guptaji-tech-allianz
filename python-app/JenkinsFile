@@ -66,5 +66,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Update Deployment YAML with New Image') {
+            steps {
+                script {
+                    echo "Replacing image placeholder in deployment YAML with ${IMAGE_TAG}"
+                    sh """
+                        cd python-app/${DEPLOY_TARGET}
+                        sed -i 's|guptatrng/guptaji-tech-allianz-${DEPLOY_TARGET}:.*|${IMAGE_TAG}|g' deployment.yaml
+                        cat deployment.yaml
+                    """
+                }
+            }
+        }
     }
 }

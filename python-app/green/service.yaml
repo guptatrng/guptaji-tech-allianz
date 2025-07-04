@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: guptaji-tech-allianz-green
+  namespace: guptaji-tech-allianz-green
+  labels:
+    app: guptaji-tech-allianz-green
+spec:
+  type: LoadBalancer
+  selector:
+    app: guptaji-tech-allianz-green
+  ports:
+    - port: 80
+      targetPort: 5000

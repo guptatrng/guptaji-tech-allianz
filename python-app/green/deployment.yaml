@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guptaji-tech-allianz-green
+  namespace: guptaji-tech-allianz-green
+  labels:
+    app: guptaji-tech-allianz-green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guptaji-tech-allianz-green
+  template:
+    metadata:
+      labels:
+        app: guptaji-tech-allianz-green
+    spec:
+      containers:
+        - name: guptaji-tech-allianz-green
+          image: guptatrng/guptaji-tech-allianz-green:<latestImageTag>
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: DEPLOYMENT_NAME
+              value: "guptaji-tech-allianz-green"
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "125m"
