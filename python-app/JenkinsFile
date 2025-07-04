@@ -79,5 +79,24 @@ pipeline {
                 }
             }
         }
+
+        stage('Authenticate with GCP and Get GKE Credentials') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-sa-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    script {
+                        sh '''
+                            echo "Activating service account"
+                            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+
+                            echo "Setting GCP project"
+                            gcloud config set project kubernetes-test-456013
+
+                            echo "Getting GKE credentials"
+                            gcloud container clusters get-credentials guptaji-tech-allianz-cluster --zone asia-south1-a --project kubernetes-test-456013
+                        '''
+                    }
+                }   
+            }
+        }
     }
 }
