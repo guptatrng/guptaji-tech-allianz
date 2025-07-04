@@ -1,5 +1,5 @@
 
-# 🧠 guptaji-tech-allianz
+# guptaji-tech-allianz
 
 > A secure and scalable CI/CD-enabled Kubernetes deployment on **Google Cloud Platform (GCP)** using **Jenkins**, **Terraform**, and **Blue-Green Deployment** strategy.
 
@@ -209,4 +209,4 @@ Change control file to `green`, push commit, and observe pipeline switch.
 
 ## 🧠 Author
 
-Built with ❤️ by [Tarang Gupta](https://github.com/guptatrng)
+[Tarang Gupta](https://github.com/guptatrng)
