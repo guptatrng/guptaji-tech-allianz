@@ -1,5 +1,4 @@
 pipeline {
-    
     agent {
         label 'default'
     }
@@ -13,15 +12,20 @@ pipeline {
 
         stage('Clone Repo') {
             steps {
-                git url: 'https://github.com/guptatrng/guptaji-tech-allianz.git', branch: 'main'
+                script {
+                    echo "========== 📥 START: Cloning Repository =========="
+                    git url: 'https://github.com/guptatrng/guptaji-tech-allianz.git', branch: 'main'
+                    echo "✅✅✅ Repo cloned successfully!"
+                }
             }
         }
 
         stage('Read Control file') {
             steps {
                 script {
+                    echo "========== 📄 START: Reading Control File =========="
                     DEPLOY_TARGET = readFile('python-app/blue-green-control.txt').trim()
-                    echo "Deploy target: ${DEPLOY_TARGET}"
+                    echo "✅ Deploy target: ${DEPLOY_TARGET}"
                 }
             }
         }
@@ -29,19 +33,22 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
+                    echo "========== 🐍 START: Installing Python Dependencies =========="
                     sh """
                         cd python-app/${DEPLOY_TARGET}
                         python3 -m venv venv
                         . venv/bin/activate
                         pip install -r requirements.txt
                     """
+                    echo "✅✅✅ Dependencies installed!"
                 }
             }
         }
-        
+
         stage('Build Docker Image') {
             steps {
                 script {
+                    echo "========== 🐳 START: Building Docker Image =========="
                     COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                     IMAGE_TAG = "${DOCKERHUB_USER}/${APP_NAME}-${DEPLOY_TARGET}:${COMMIT_ID}"
 
@@ -50,6 +57,7 @@ pipeline {
                         docker build -t ${IMAGE_TAG} .
                         docker images
                     """
+                    echo "✅✅✅ Docker image built: ${IMAGE_TAG}"
                 }
             }
         }
@@ -58,10 +66,12 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                     script {
+                        echo "========== 📤 START: Pushing Docker Image =========="
                         sh """
                             echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
                             docker push ${IMAGE_TAG}
                         """
+                        echo "✅✅✅ Docker image pushed: ${IMAGE_TAG}"
                     }
                 }
             }
@@ -70,10 +80,11 @@ pipeline {
         stage('Update Deployment YAML with New Image') {
             steps {
                 script {
-                    echo "Replacing image placeholder in deployment YAML with ${IMAGE_TAG}"
+                    echo "========== ✏️ START: Updating Deployment YAML =========="
                     sh """
                         cd python-app/${DEPLOY_TARGET}
                         sed -i 's|guptatrng/guptaji-tech-allianz-${DEPLOY_TARGET}:.*|${IMAGE_TAG}|g' deployment.yaml
+                        echo "✅✅✅ Updated deployment.yaml:"
                         cat deployment.yaml
                     """
                 }
@@ -84,6 +95,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'gcp-sa-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
                     script {
+                        echo "========== 🔑 START: Authenticating with GCP =========="
                         sh '''
                             echo "Activating service account"
                             gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
@@ -94,9 +106,25 @@ pipeline {
                             echo "Getting GKE credentials"
                             gcloud container clusters get-credentials guptaji-tech-allianz-cluster --zone asia-south1-a --project kubernetes-test-456013
                         '''
+                        echo "✅✅✅ GCP authentication and cluster credentials retrieved"
                     }
                 }   
             }
         }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    echo "========== 🚀 START: Deploying to Kubernetes =========="
+                    sh """
+                        cd python-app/${DEPLOY_TARGET}
+                        kubectl apply -f deployment.yaml
+                        kubectl apply -f service.yaml
+                    """
+                    echo "✅✅✅ Deployment and Service applied to Kubernetes!"
+                }
+            }
+        }
+
     }
 }

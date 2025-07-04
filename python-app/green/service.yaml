@@ -12,3 +12,4 @@ spec:
   ports:
     - port: 80
       targetPort: 5000
+  loadBalancerIP: 35.244.42.150
