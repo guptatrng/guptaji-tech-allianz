@@ -1,5 +1,5 @@
 
-# guptaji-tech-allianz
+# guptaji-tech-allianz (http://guptaji.tech)
 
 > A secure and scalable CI/CD-enabled Kubernetes deployment on **Google Cloud Platform (GCP)** using **Jenkins**, **Terraform**, and **Blue-Green Deployment** strategy.
 
